@@ -1,7 +1,7 @@
 import argparse
 from utils.helper_function import load_obj, makedir
 from utils.data import tabularDataHandler
-from models import DNN
+from solvers.solver_provider import get_solver
 
 if __name__ == '__main__':
 
@@ -16,8 +16,6 @@ if __name__ == '__main__':
 
     dataHandler = tabularDataHandler(configs['base_config'])
 
-    if args.model == 'DNN':
-        train_loader, val_loader = dataHandler.generate_dataloader_for_DNN()
-        model_handler = DNN.modelHandler(
-            dataHandler.get_input_dim(), configs['DNN_config'])
-        model_handler.train(train_loader, val_loader)
+    solver = get_solver(args.model)(
+        dataHandler, configs[f'{args.model}_config'])
+    solver.train()
