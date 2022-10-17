@@ -8,4 +8,4 @@ DNN_config:
   epochs: 20
   lr: 0.0001
   weight_file: "trained_model/dnn.pt"
-  device : cuda
+  device : cpu
