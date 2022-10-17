@@ -41,9 +41,11 @@ class modelHandler:
     def __init__(self, input_dim, dnn_config):
         self.input_dim = input_dim
         self.dnn_config = dnn_config
+        self.device = torch.device(dnn_config["device"])
         self.model = MLP(self.input_dim)
 
     def train(self, train_loader, val_loader):
+        self.model.to(self.device)
         self.model.train()
         optimizer = torch.optim.Adam(
             self.model.parameters(), lr=self.dnn_config['lr'])
@@ -51,6 +53,7 @@ class modelHandler:
 
         for _ in tqdm.tqdm(range(self.dnn_config['epochs']), ncols=160):
             for _, (x, y) in enumerate(train_loader):
+                x, y = x.to(self.device), y.to(self.device)
                 optimizer.zero_grad()
                 y_hat = self.model(x.float())
                 loss = loss_function(y_hat, y.float().view(-1, 1))
@@ -62,6 +65,7 @@ class modelHandler:
         self.model.eval()
         acc = 0
         for x, y in val_loader:
+            x, y = x.to(self.device), y.to(self.device)
             y_pred = self.model(x.float())
             acc += binary_acc(y_pred, y.float().view(-1, 1))
         print(f'val acc is {acc/val_loader.dataset.__len__()}')
