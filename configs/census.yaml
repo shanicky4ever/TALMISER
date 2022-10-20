@@ -1,11 +1,14 @@
 base_config:
+  data_name: census
   data_file: "datasets/census.csv"
   classes_file: "trained_model/census_encoder.yaml"
   label_col : "income"
   drop_col : ["fnlwgt"]
   val_ratio : 0.1
+  dtmc_folder: "dtmc_results/census"
 DNN_config:
   epochs: 20
+  batch_size: 32
   lr: 0.0001
   weight_file: "trained_model/dnn.pt"
   device : cpu

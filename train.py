@@ -14,7 +14,7 @@ if __name__ == '__main__':
     configs = load_obj(f"configs/{args.dataset}.yaml")
     makedir("trained_model", del_before=False)
 
-    dataHandler = tabularDataHandler(configs['base_config'])
+    dataHandler = tabularDataHandler(configs['base_config'], encode=True)
 
     solver = get_solver(args.model)(
         dataHandler, configs[f'{args.model}_config'])

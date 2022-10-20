@@ -3,3 +3,6 @@ sklearn
 torch
 tqdm
 pyyaml
+graphviz
+pydot
+PyDTMC

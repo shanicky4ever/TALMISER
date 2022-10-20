@@ -1,14 +1,30 @@
 from solvers.base_solver import BaseSolver
 from models.DNN import modelHandler
+import pandas as pd
+import numpy as np
 
 
 class DNNSolver(BaseSolver):
-    def __init__(self, dataHandler, configs):
-        super().__init__(dataHandler, configs)
+    def __init__(self, dataHandler, configs, pretrained=False):
+        super().__init__(dataHandler, configs, pretrained)
         input_dim = dataHandler.get_input_dim()
+        pretrained_model_path = None if not pretrained else self.configs['weight_file']
         self.modelHandler = modelHandler(
-            input_dim=input_dim, dnn_config=configs)
+            input_dim=input_dim, dnn_config=configs,
+            pretrained_model_path=pretrained_model_path)
 
     def train(self):
-        train_loader, val_loader = self.dataHandler.generate_dataloader_for_DNN()
+        train_loader, val_loader = self.dataHandler.generate_dataloader_for_DNN(
+            batch_size=self.configs['batch_size'])
         self.modelHandler.train(train_loader, val_loader)
+
+    def generate_DTMCHandler(self, attribute_name):
+        all_loader = self.dataHandler.generate_dataloader_for_DNN(
+            batch_size=self.configs['batch_size'], split=False)
+        results = self.modelHandler.simple_forward(all_loader)
+        value_distr = self.dataHandler.get_data()[attribute_name]
+        stats = np.zeros((len(value_distr.unique()),
+                          len(pd.unique(results))))
+        for v, r in zip(value_distr, results):
+            stats[v][r] += 1
+        return self._stats_to_DTMCHandler(stats, attribute_name)
