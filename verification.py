@@ -2,7 +2,6 @@
 from solvers.solver_provider import get_solver
 from utils.helper_function import load_obj
 import argparse
-import os
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
