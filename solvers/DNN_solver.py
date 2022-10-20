@@ -5,20 +5,21 @@ import numpy as np
 
 
 class DNNSolver(BaseSolver):
-    def __init__(self, dataHandler, configs, pretrained=False):
+    def __init__(self, dataHandler=None, configs=None, pretrained=False):
         super().__init__(dataHandler, configs, pretrained)
-        input_dim = dataHandler.get_input_dim()
-        pretrained_model_path = None if not pretrained else self.configs['weight_file']
-        self.modelHandler = modelHandler(
-            input_dim=input_dim, dnn_config=configs,
-            pretrained_model_path=pretrained_model_path)
+        if dataHandler:
+            input_dim = dataHandler.get_input_dim()
+            pretrained_model_path = None if not pretrained else self.configs['weight_file']
+            self.modelHandler = modelHandler(
+                input_dim=input_dim, dnn_config=configs,
+                pretrained_model_path=pretrained_model_path)
 
     def train(self):
         train_loader, val_loader = self.dataHandler.generate_dataloader_for_DNN(
             batch_size=self.configs['batch_size'])
         self.modelHandler.train(train_loader, val_loader)
 
-    def generate_DTMCHandler(self, attribute_name):
+    def generate_DTMCHandler(self, attribute_name, is_plot=False):
         all_loader = self.dataHandler.generate_dataloader_for_DNN(
             batch_size=self.configs['batch_size'], split=False)
         results = self.modelHandler.simple_forward(all_loader)
@@ -27,4 +28,4 @@ class DNNSolver(BaseSolver):
                           len(pd.unique(results))))
         for v, r in zip(value_distr, results):
             stats[v][r] += 1
-        return self._stats_to_DTMCHandler(stats, attribute_name)
+        return self._stats_to_DTMCHandler(stats, attribute_name, is_plot=is_plot)

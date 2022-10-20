@@ -1,19 +1,24 @@
 from pydtmc import MarkovChain, plot_graph
-import numpy as np
 from matplotlib import pyplot as plt
+from utils.helper_function import load_obj, save_obj
+import numpy as np
 
 
 class DTMCHandler:
-    def __init__(self, dtmc_array, node_labels=None):
-        self.dtmc_array = dtmc_array
-        self.node_labels = [''.join(filter(str.isalnum, l))
-                            for l in node_labels]
-        self.mc = MarkovChain(
-            self.dtmc_array, self.node_labels)
+    def __init__(self, dtmc_array=None, node_labels=None):
+        if dtmc_array is not None:
+            self.dtmc_array = dtmc_array
+            self.node_labels = [''.join(filter(str.isalnum, l))
+                                for l in node_labels]
+            self.mc = MarkovChain(
+                self.dtmc_array, self.node_labels)
 
     def save_dtmc(self, path):
-        save_array = np.vstack((np.array(self.node_labels), self.dtmc_array))
-        np.save(path, save_array)
+        save_dict = {
+            'node_labels': self.node_labels,
+            'dtmc_array': self.dtmc_array.tolist()
+        }
+        save_obj(save_dict, path)
 
     def save_dtmc_graph(self, path):
         plt.ioff()
@@ -22,9 +27,9 @@ class DTMCHandler:
         fig.savefig(path)
 
     def load_dtmc(self, path):
-        load_array = np.load(path)
-        self.node_labels = load_array[0]
-        self.dtmc_array = load_array[1:]
+        load_dict = load_obj(path)
+        self.node_labels = load_dict['node_labels']
+        self.dtmc_array = np.array(load_dict['dtmc_array'])
         self.mc = MarkovChain(
             self.dtmc_array, self.node_labels)
 

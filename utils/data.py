@@ -84,6 +84,12 @@ class tabularDataHandler:
     def get_data(self):
         return self.data
 
+    def get_dtmc_folder(self):
+        return self.base_config['dtmc_folder']
+
+    def get_dataset_name(self):
+        return self.base_config['data_name']
+
 
 class TabularDataset(torch.utils.data.Dataset):
     def __init__(self, X, y):
