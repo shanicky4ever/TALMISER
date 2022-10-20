@@ -26,6 +26,6 @@ if __name__ == '__main__':
     dtmc_handler = solver.generate_DTMCHandler(args.attribute)
     combine_name = os.path.join(
         configs['base_config']['dtmc_folder'], f"{args.dataset}_{args.model}_{args.attribute}")
-    dtmc_handler.save_dtmc_array(f"{combine_name}.npy")
+    dtmc_handler.save_dtmc(f"{combine_name}.npy")
     if args.plot:
         dtmc_handler.save_dtmc_graph(f"{combine_name}.png")
