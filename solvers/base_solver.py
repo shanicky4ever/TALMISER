@@ -17,6 +17,7 @@ class BaseSolver:
         raise NotImplementedError
 
     def _stats_to_DTMCHandler(self, stats, attribute_name, is_plot=False):
+        print(stats)
         dtmc_nodes_num = 1 + stats.shape[0] + stats.shape[1]
         DTMC = np.zeros((dtmc_nodes_num, dtmc_nodes_num))
         for i in range(stats.shape[0]):

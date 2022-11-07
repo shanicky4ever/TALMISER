@@ -10,6 +10,7 @@ if __name__ == '__main__':
     parser.add_argument('--model', default='DNN', type=str, choices=['DNN', ])
     parser.add_argument('--attribute', default='sex', type=str)
     parser.add_argument('--plot', action='store_true')
+
     args = parser.parse_args()
     configs = load_obj(f"configs/{args.dataset}.yaml")
     solver = get_solver(args.model)()

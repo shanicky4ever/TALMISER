@@ -20,6 +20,7 @@ class DNNSolver(BaseSolver):
         self.modelHandler.train(train_loader, val_loader)
 
     def generate_DTMCHandler(self, attribute_name, is_plot=False):
+        # TODO: Add a function to fit the formula
         all_loader = self.dataHandler.generate_dataloader_for_DNN(
             batch_size=self.configs['batch_size'], split=False)
         results = self.modelHandler.simple_forward(all_loader)
