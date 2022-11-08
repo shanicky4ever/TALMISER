@@ -1,5 +1,5 @@
 
-from solvers.solver_provider import get_solver
+from solvers import get_solver
 from utils.helper_function import load_obj
 import argparse
 
@@ -15,3 +15,5 @@ if __name__ == '__main__':
     configs = load_obj(f"configs/{args.dataset}.yaml")
     solver = get_solver(args.model)()
     solver.read_dtmc(args.dataset, args.model, args.attribute, configs)
+
+    print(solver.dtmc_handler.mc.p)

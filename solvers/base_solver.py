@@ -30,24 +30,18 @@ class BaseSolver:
         return self._stats_to_DTMCHandler(stats, attribute_name, is_plot=is_plot)
 
     def _stats_to_DTMCHandler(self, stats, attribute_name, is_plot=False):
-        dtmc_nodes_num = 1 + stats.shape[0] + stats.shape[1]
-        DTMC = np.zeros((dtmc_nodes_num, dtmc_nodes_num))
-        for i in range(stats.shape[0]):
-            DTMC[0][i+1] = sum(stats[i])/sum(sum(stats))
-            for j in range(stats.shape[1]):
-                DTMC[1+i][1+stats.shape[0]+j] = stats[i][j]/sum(stats[i])
-        for j in range(stats.shape[1]):
-            DTMC[1+stats.shape[0]+j][1+stats.shape[0]+j] = 1.0
+        para_names = [self.dataHandler.get_decode_data(
+            attribute_name, i) for i in range(stats.shape[0])]
+        label_names = [self.dataHandler.get_decode_data(
+            self.dataHandler.get_label_name(), i) for i in range(stats.shape[1])]
+        handler = DTMCHandler()
+        handler.build_dtmc(stats, attribute_name, para_names, label_names)
 
-        node_labels = [attribute_name] + \
-            [self.dataHandler.get_decode_data(
-                attribute_name, i) for i in range(stats.shape[0])] +\
-            [self.dataHandler.get_decode_data(
-                self.dataHandler.get_label_name(), i) for i in range(stats.shape[1])]
-        handler = DTMCHandler(DTMC, node_labels)
         self.combine_name = _generate_combine_name(
             folder=self.dataHandler.get_dtmc_folder(),
-            dataset=self.dataHandler.get_dataset_name(), model_name=self.configs['model'], attribute_name=attribute_name)
+            dataset=self.dataHandler.get_dataset_name(),
+            model_name=self.configs['model'],
+            attribute_name=attribute_name)
         handler.save_dtmc(f"{self.combine_name}.yaml")
         if is_plot:
             handler.save_dtmc_graph(f"{self.combine_name}.png")
@@ -60,8 +54,11 @@ class BaseSolver:
             dtmc_folder = configs['base_config']['dtmc_folder']
             self.combine_name = _generate_combine_name(
                 dtmc_folder, dataset, model_name, attribute_name)
-        handler = DTMCHandler()
-        handler.load_dtmc(f"{self.combine_name}.yaml")
+        self.dtmc_handler = DTMCHandler()
+        self.dtmc_handler.load_dtmc(f"{self.combine_name}.yaml")
+
+    def get_fair_pairs(self):
+        p_matrix = self.dtmc_handler.mc.p
 
 
 def _generate_combine_name(folder, dataset, model_name, attribute_name):
@@ -79,3 +76,10 @@ def _calc_mutation_list(stats, eps, delta):
         if sum(st) < threshold:
             m_list.append(i)
     return m_list
+
+
+class pair:
+    def __init__(self, st, ed, val):
+        self.st = st
+        self.ed = ed
+        self.val = val
