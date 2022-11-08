@@ -57,8 +57,9 @@ class BaseSolver:
         self.dtmc_handler = DTMCHandler()
         self.dtmc_handler.load_dtmc(f"{self.combine_name}.yaml")
 
-    def get_fair_pairs(self):
-        p_matrix = self.dtmc_handler.mc.p
+    def get_fair_pairs(self, fair_diff=0.05):
+        assert self.dtmc_handler is not None
+        return self.dtmc_handler.get_fair_pairs(fair_diff)
 
 
 def _generate_combine_name(folder, dataset, model_name, attribute_name):
@@ -76,10 +77,3 @@ def _calc_mutation_list(stats, eps, delta):
         if sum(st) < threshold:
             m_list.append(i)
     return m_list
-
-
-class pair:
-    def __init__(self, st, ed, val):
-        self.st = st
-        self.ed = ed
-        self.val = val
