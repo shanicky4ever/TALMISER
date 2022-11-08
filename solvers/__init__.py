@@ -1,3 +1,8 @@
 from .DNN_solver import DNNSolver
-from . import mutator
-from .solver_provider import get_mutator, get_solver
+
+
+def get_solver(model_class):
+    solver_dict = {
+        'DNN': DNNSolver,
+    }
+    return solver_dict[model_class]

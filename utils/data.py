@@ -3,6 +3,7 @@ import torch
 from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from utils.helper_function import save_obj, load_obj
+from mutator import get_mutator
 
 
 class tabularDataHandler:
@@ -11,6 +12,8 @@ class tabularDataHandler:
         self._get_data()
         self._encode_data(encode)
         self._determine_label()
+        self.mutator = get_mutator('tabular')(
+            self.data, base_config['mutation_bound'])
 
     def _get_data(self):
         self.data = pd.read_csv(
@@ -67,9 +70,11 @@ class tabularDataHandler:
             TabularDataset(x.values, y.values),
             batch_size=batch_size, shuffle=shuffle)
 
-    def generate_dataloader_for_DNN(self, batch_size=32, split=True):
+    def generate_dataloader_for_DNN(self, data=None, batch_size=32, split=True):
+        if data is None:
+            data = self.data
         if not split:
-            return self._data_to_dataloader(self.data, self.label,
+            return self._data_to_dataloader(data, self.label,
                                             batch_size=batch_size)
 
         X_train, X_val, y_train, y_val = self._split_train_val()

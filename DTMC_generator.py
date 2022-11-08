@@ -1,7 +1,7 @@
 import argparse
 from utils.helper_function import load_obj, makedir
 from utils.data import tabularDataHandler
-from solvers.solver_provider import get_solver
+from solvers import get_solver
 
 if __name__ == '__main__':
 
