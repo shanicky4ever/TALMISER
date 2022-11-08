@@ -1,6 +1,7 @@
 import numpy as np
 from utils.dtmc import DTMCHandler
 import os
+import pandas as pd
 
 
 class BaseSolver:
@@ -13,8 +14,18 @@ class BaseSolver:
     def train(self):
         raise NotImplementedError
 
-    def generate_DTMC(self, attribute_name, is_plot):
+    def _get_pred(self):
         raise NotImplementedError
+
+    def generate_DTMCHandler(self, attribute_name, is_plot):
+        # TODO: Add a function to fit the formula
+        results = self._get_pred()
+        value_distr = self.dataHandler.get_data()[attribute_name]
+        stats = np.zeros((len(value_distr.unique()),
+                          len(pd.unique(results))))
+        for v, r in zip(value_distr, results):
+            stats[v][r] += 1
+        return self._stats_to_DTMCHandler(stats, attribute_name, is_plot=is_plot)
 
     def _stats_to_DTMCHandler(self, stats, attribute_name, is_plot=False):
         print(stats)

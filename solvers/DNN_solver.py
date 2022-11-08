@@ -19,14 +19,20 @@ class DNNSolver(BaseSolver):
             batch_size=self.configs['batch_size'])
         self.modelHandler.train(train_loader, val_loader)
 
-    def generate_DTMCHandler(self, attribute_name, is_plot=False):
-        # TODO: Add a function to fit the formula
-        all_loader = self.dataHandler.generate_dataloader_for_DNN(
+    def _get_pred(self):
+        loader = self.dataHandler.generate_dataloader_for_DNN(
             batch_size=self.configs['batch_size'], split=False)
-        results = self.modelHandler.simple_forward(all_loader)
-        value_distr = self.dataHandler.get_data()[attribute_name]
-        stats = np.zeros((len(value_distr.unique()),
-                          len(pd.unique(results))))
-        for v, r in zip(value_distr, results):
-            stats[v][r] += 1
-        return self._stats_to_DTMCHandler(stats, attribute_name, is_plot=is_plot)
+        results = self.modelHandler.simple_forward(loader)
+        return results
+
+    # def generate_DTMCHandler(self, attribute_name, is_plot=False):
+    #     # TODO: Add a function to fit the formula
+    #     all_loader = self.dataHandler.generate_dataloader_for_DNN(
+    #         batch_size=self.configs['batch_size'], split=False)
+    #     results = self.modelHandler.simple_forward(all_loader)
+    #     value_distr = self.dataHandler.get_data()[attribute_name]
+    #     stats = np.zeros((len(value_distr.unique()),
+    #                       len(pd.unique(results))))
+    #     for v, r in zip(value_distr, results):
+    #         stats[v][r] += 1
+    #     return self._stats_to_DTMCHandler(stats, attribute_name, is_plot=is_plot)
