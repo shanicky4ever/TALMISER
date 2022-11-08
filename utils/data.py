@@ -52,6 +52,9 @@ class tabularDataHandler:
     def get_label_name(self):
         return self.base_config['label_col']
 
+    def get_label_unique(self):
+        return self.label.unique()
+
     def _split_train_val(self):
         return train_test_split(
             self.data, self.label, test_size=self.base_config['val_ratio'], random_state=42)

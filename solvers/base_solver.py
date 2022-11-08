@@ -2,6 +2,7 @@ import numpy as np
 from utils.dtmc import DTMCHandler
 import os
 import pandas as pd
+import math
 
 
 class BaseSolver:
@@ -17,18 +18,20 @@ class BaseSolver:
     def _get_pred(self):
         raise NotImplementedError
 
-    def generate_DTMCHandler(self, attribute_name, is_plot):
+    def generate_DTMCHandler(self, attribute_name, is_plot, eps=0.01, delta=0.05):
         # TODO: Add a function to fit the formula
-        results = self._get_pred()
+        label_unique = self.dataHandler.get_label_unique()
         value_distr = self.dataHandler.get_data()[attribute_name]
         stats = np.zeros((len(value_distr.unique()),
-                          len(pd.unique(results))))
+                          len(label_unique)))
+        results = self._get_pred()
         for v, r in zip(value_distr, results):
             stats[v][r] += 1
+        _mutation_list = _calc_mutation_list(stats, eps, delta)
+        print(_mutation_list)
         return self._stats_to_DTMCHandler(stats, attribute_name, is_plot=is_plot)
 
     def _stats_to_DTMCHandler(self, stats, attribute_name, is_plot=False):
-        print(stats)
         dtmc_nodes_num = 1 + stats.shape[0] + stats.shape[1]
         DTMC = np.zeros((dtmc_nodes_num, dtmc_nodes_num))
         for i in range(stats.shape[0]):
@@ -65,3 +68,13 @@ class BaseSolver:
 
 def _generate_combine_name(folder, dataset, model_name, attribute_name):
     return os.path.join(folder, f"{dataset}_{model_name}_{attribute_name}")
+
+
+def _calc_mutation_list(stats, eps, delta):
+    m_list = []
+    for i, st in enumerate(stats):
+        threshold = 2/(eps**2) * math.log(2/delta) * \
+            (1/4 - (1/2-min(st)/sum(st)-2/3*eps)**2)
+        if sum(st) < threshold:
+            m_list.append(i)
+    return m_list

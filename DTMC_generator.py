@@ -25,4 +25,4 @@ if __name__ == '__main__':
         dataHandler=dataHandler, configs=configs[f'{args.model}_config'],
         pretrained=True)
     dtmc_handler = solver.generate_DTMCHandler(
-        args.attribute, is_plot=args.plot)
+        args.attribute, is_plot=args.plot, eps=args.epsilon, delta=args.delta)
