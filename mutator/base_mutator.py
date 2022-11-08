@@ -10,6 +10,7 @@ class BaseMutator:
 
     def mutate(self, attribute_name, attribute_value):
         if attribute_value != self.last_mutate:
+            print(f"Mutating {attribute_name} equals {attribute_value}")
             self.reset_mutated_data()
         self.last_mutate = attribute_value
         return self._mutate(attribute_name, attribute_value)

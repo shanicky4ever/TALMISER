@@ -21,6 +21,7 @@ class BaseSolver:
         label_unique = self.dataHandler.get_label_unique()
         value_distr = self.dataHandler.get_data()[attribute_name].unique()
         stats = np.zeros((len(value_distr), len(label_unique)))
+        print(f"{len(value_distr)} unique values in {attribute_name}")
         while len(_mutation_list := _calc_mutation_list(stats, eps, delta)) > 0:
             mutate_value = _mutation_list[0]
             results = self._get_mutation_pred(attribute_name, mutate_value)

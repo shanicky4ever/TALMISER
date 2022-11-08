@@ -9,7 +9,7 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', default='census',
                         type=str, choices=['census', ])
     parser.add_argument('--model', default='DNN', type=str, choices=['DNN', ])
-    parser.add_argument('--attribute', default='sex', type=str)
+    parser.add_argument('-a', '--attribute', default='sex', type=str)
     parser.add_argument('--plot', action='store_true')
     parser.add_argument('--epsilon', default=0.01, type=float)
     parser.add_argument('--delta', default=0.05, type=float)
