@@ -21,7 +21,7 @@ if __name__ == '__main__':
     makedir("dtmc_results", del_before=False)
     makedir(configs['base_config']['dtmc_folder'], del_before=False)
     makedir(os.path.join(configs['base_config']
-            ['dtmc_folder'], args.model), del_before=False)
+            ['dtmc_folder'], configs[f'{args.model}_config']['model']), del_before=False)
 
     dataHandler = tabularDataHandler(configs['base_config'], encode=False)
 

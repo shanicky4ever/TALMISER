@@ -53,8 +53,9 @@ class BaseSolver:
             raise ValueError("Configs must be provided")
         if configs:
             dtmc_folder = configs['base_config']['dtmc_folder']
+            model = configs[f'{model_name}_config']['model']
             self.combine_name = _generate_combine_name(
-                dtmc_folder, dataset, model_name, attribute_name)
+                dtmc_folder, dataset, model, attribute_name)
         self.dtmc_handler = DTMCHandler()
         self.dtmc_handler.load_dtmc(f"{self.combine_name}.yaml")
 
