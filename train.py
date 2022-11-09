@@ -3,7 +3,7 @@ from utils.helper_function import load_obj, makedir
 from utils.data import tabularDataHandler
 from solvers import get_solver
 import logging
-logging.basicConfig(format='[%(levelname)s]%(message)s', level=logging.INFO)
+logging.basicConfig(format='[%(levelname)s] %(message)s', level=logging.INFO)
 
 
 if __name__ == '__main__':
