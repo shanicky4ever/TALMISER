@@ -8,7 +8,7 @@ Here's the code for project of CMPUT622.
 
 To install the dependecies, use
 
-        pip install requirements.txt
+        pip install -r requirements.txt
 
 Tips: Please use `python>=3.8`, since there are some walrus operators, which is the feature of Python 3.8.
 
