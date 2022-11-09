@@ -57,7 +57,11 @@ class BaseSolver:
             self.combine_name = _generate_combine_name(
                 dtmc_folder, dataset, model, attribute_name)
         self.dtmc_handler = DTMCHandler()
-        self.dtmc_handler.load_dtmc(f"{self.combine_name}.yaml")
+        dtmc_file = f"{self.combine_name}.yaml"
+        if not os.path.exists(dtmc_file):
+            os.system(
+                f"python DTMC_generator.py -d {dataset} -m {model_name} -a {attribute_name}")
+        self.dtmc_handler.load_dtmc(dtmc_file)
 
     def get_fair_pairs(self, fair_diff=0.05):
         assert self.dtmc_handler is not None
