@@ -6,10 +6,8 @@ logging.basicConfig(format='[%(levelname)s] %(message)s', level=logging.INFO)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-d', '--dataset', default='census',
-                        type=str, choices=['census', ])
-    parser.add_argument('-m', '--model', default='DNN',
-                        type=str, choices=['DNN', ])
+    parser.add_argument('-d', '--dataset', default='census',)
+    parser.add_argument('-m', '--model', default='DNN')
     parser.add_argument('-a', '--attribute', default='sex', type=str)
     parser.add_argument('-fd', '--fair_diff', default=0.05, type=float)
     args = parser.parse_args()

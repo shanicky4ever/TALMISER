@@ -9,10 +9,8 @@ logging.basicConfig(format='[%(levelname)s] %(message)s', level=logging.INFO)
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-d', '--dataset', default='census',
-                        type=str, choices=['census', ])
-    parser.add_argument('-m', '--model', default='DNN',
-                        type=str, choices=['DNN', ])
+    parser.add_argument('-d', '--dataset', default='census')
+    parser.add_argument('-m', '--model', default='DNN')
     args = parser.parse_args()
 
     configs = load_obj(f"configs/{args.dataset}.yaml")

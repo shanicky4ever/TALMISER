@@ -58,7 +58,7 @@ class tabularDataHandler:
     def get_label_unique(self):
         return self.label.unique()
 
-    def _split_train_val(self):
+    def split_train_val(self):
         return train_test_split(
             self.data, self.label, test_size=self.base_config['val_ratio'], random_state=42)
 
@@ -77,7 +77,7 @@ class tabularDataHandler:
             return self._data_to_dataloader(data, self.label,
                                             batch_size=batch_size)
 
-        X_train, X_val, y_train, y_val = self._split_train_val()
+        X_train, X_val, y_train, y_val = self.split_train_val()
         train_loader = self._data_to_dataloader(
             X_train, y_train, batch_size=batch_size, shuffle=True)
         val_loader = self._data_to_dataloader(

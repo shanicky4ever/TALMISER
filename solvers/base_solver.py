@@ -18,7 +18,7 @@ class BaseSolver:
     def _get_mutation_pred(self, attribute_name, attribute_value):
         raise NotImplementedError
 
-    def generate_DTMCHandler(self, attribute_name, is_plot, eps=0.01, delta=0.05):
+    def generate_DTMC(self, attribute_name, is_plot, eps=0.01, delta=0.05):
         label_unique = self.dataHandler.get_label_unique()
         value_distr = self.dataHandler.get_data()[attribute_name].unique()
         stats = np.zeros((len(value_distr), len(label_unique)))
@@ -64,7 +64,7 @@ class BaseSolver:
 
 
 def _generate_combine_name(folder, dataset, model_name, attribute_name):
-    return os.path.join(folder, f"{dataset}_{model_name}_{attribute_name}")
+    return os.path.join(folder, model_name, f"{dataset}_{model_name}_{attribute_name}")
 
 
 def _calc_mutation_list(stats, eps, delta):
