@@ -60,7 +60,7 @@ class BaseSolver:
         dtmc_file = f"{self.combine_name}.yaml"
         if not os.path.exists(dtmc_file):
             os.system(
-                f"python DTMC_generator.py -d {dataset} -m {model_name} -a {attribute_name}")
+                f"python DTMC_generator.py -d {dataset} -m {model_name} -a {attribute_name} --plot")
         self.dtmc_handler.load_dtmc(dtmc_file)
 
     def get_fair_pairs(self, fair_diff=0.05):
