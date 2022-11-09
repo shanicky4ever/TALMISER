@@ -1,6 +1,7 @@
 from torch import nn
 import torch
 import tqdm
+import logging
 
 
 class MLP(nn.Module):
@@ -70,7 +71,7 @@ class modelHandler:
             x, y = x.to(self.device), y.to(self.device)
             y_pred = self.model(x.float())
             acc += binary_acc(y_pred, y.float().view(-1, 1))
-        print(f'val acc is {acc/val_loader.dataset.__len__()}')
+        logging.info(f'val acc is {acc/val_loader.dataset.__len__()}')
 
     def get_model(self):
         return self.model

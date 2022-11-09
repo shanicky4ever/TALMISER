@@ -1,14 +1,18 @@
 import argparse
 from utils.helper_function import load_obj, makedir
 from utils.data import tabularDataHandler
-from solvers.solver_provider import get_solver
+from solvers import get_solver
+import logging
+logging.basicConfig(format='[%(levelname)s]%(message)s', level=logging.INFO)
+
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', default='census',
+    parser.add_argument('-d', '--dataset', default='census',
                         type=str, choices=['census', ])
-    parser.add_argument('--model', default='DNN', type=str, choices=['DNN', ])
+    parser.add_argument('-m', '--model', default='DNN',
+                        type=str, choices=['DNN', ])
     args = parser.parse_args()
 
     configs = load_obj(f"configs/{args.dataset}.yaml")

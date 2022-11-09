@@ -1,6 +1,7 @@
 from pydtmc import MarkovChain, plot_graph
 from utils.helper_function import load_obj, save_obj
 import numpy as np
+import logging
 
 
 class DTMCHandler:
@@ -36,6 +37,7 @@ class DTMCHandler:
             'label_names': self.label_names
         }
         save_obj(save_dict, path)
+        logging.info(f"save dtmc to {path}")
 
     def save_dtmc_graph(self, path):
         fig, _ = plot_graph(self.mc)
@@ -45,6 +47,7 @@ class DTMCHandler:
         fig.set_size_inches(fig_size[0], fig_size[1]*1.5)
 
         fig.savefig(path)
+        logging.info(f"save dtmc graph to {path}")
 
     def load_dtmc(self, path):
         load_dict = load_obj(path)
@@ -77,7 +80,7 @@ class DTMCHandler:
 
             p1, p2 = 0, 1
             while p1 < len(pairs):
-                while p2 < len(pairs) and pairs[p2][-1] - pairs[p1][-1] < fair_diff:
+                while p2 < len(pairs) and abs(pairs[p2][-1] - pairs[p1][-1]) < fair_diff:
                     fair_pairs.append(
                         f"{pairs[p1][0]}, {pairs[p2][0]} -> {pairs[p1][1]}")
                     p2 += 1

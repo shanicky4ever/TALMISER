@@ -2,13 +2,16 @@ import argparse
 from utils.helper_function import load_obj, makedir
 from utils.data import tabularDataHandler
 from solvers import get_solver
+import logging
+logging.basicConfig(format='[%(levelname)s] %(message)s', level=logging.INFO)
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', default='census',
+    parser.add_argument('-d', '--dataset', default='census',
                         type=str, choices=['census', ])
-    parser.add_argument('--model', default='DNN', type=str, choices=['DNN', ])
+    parser.add_argument('-m', '--model', default='DNN',
+                        type=str, choices=['DNN', ])
     parser.add_argument('-a', '--attribute', default='sex', type=str)
     parser.add_argument('--plot', action='store_true')
     parser.add_argument('--epsilon', default=0.01, type=float)
