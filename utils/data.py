@@ -4,6 +4,7 @@ from sklearn import preprocessing
 from sklearn.model_selection import train_test_split
 from utils.helper_function import save_obj, load_obj
 from mutator import get_mutator
+import datetime
 
 
 class tabularDataHandler:
@@ -36,6 +37,14 @@ class tabularDataHandler:
                 (self.data['c_charge_degree'] != "0") &
                 (self.data['score_text'] != "N/A")
             ]
+            in_custody = [datetime.datetime.strptime(s.split()[0], '%Y-%m-%d').date()
+                          for s in self.data['c_jail_in']]
+            out_custody = [datetime.datetime.strptime(s.split()[0], '%Y-%m-%d').date()
+                           for s in self.data['c_jail_out']]
+            custody_during = [(o-i).days
+                              for i, o in zip(in_custody, out_custody)]
+            self.data['custody_during'] = custody_during
+            self.data.drop(['c_jail_in', 'c_jail_out'], axis=1, inplace=True)
 
     def _encode_data(self, encode):
         le = preprocessing.LabelEncoder()

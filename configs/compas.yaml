@@ -3,7 +3,7 @@ base_config:
   data_file: "datasets/compas.csv"
   classes_file: "trained_model/compas_encoder.yaml"
   label_col : "two_year_recid"
-  drop_col : ["id","name","first","last","compas_screening_date","juv_fel_count","juv_misd_count","juv_other_count","c_case_number","c_offense_date","c_arrest_date","c_days_from_compas","r_case_number","r_charge_degree","r_days_from_arrest","r_offense_date","r_charge_desc","r_jail_in","r_jail_out","violent_recid",is_violent_recid,"vr_case_number","vr_charge_degree","vr_offense_date","vr_charge_desc","type_of_assessment","score_text","screening_date","v_type_of_assessment","v_decile_score","v_score_text","v_screening_date","in_custody","out_custody","start","end","event"]
+  drop_col : ["id","name","first","last","compas_screening_date","juv_fel_count","juv_misd_count","juv_other_count","c_case_number","c_offense_date","c_arrest_date","c_days_from_compas","r_case_number","r_charge_degree","r_days_from_arrest","r_offense_date","r_charge_desc","r_jail_in","r_jail_out","violent_recid",is_violent_recid,"vr_case_number","vr_charge_degree","vr_offense_date","vr_charge_desc","type_of_assessment","score_text","screening_date","v_type_of_assessment","v_decile_score","v_score_text","v_screening_date","in_custody","out_custody","start","end","event","c_charge_desc",'dob']
   val_ratio : 0.1
   dtmc_folder: "dtmc_results/compas"
   mutation_bound: 0.2
