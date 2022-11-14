@@ -19,24 +19,23 @@ class tabularDataHandler:
         self.data = pd.read_csv(
             self.base_config['data_file'], na_filter=True, skipinitialspace=True)
         self.data.replace('?', None, inplace=True)
-        if self.base_config['data_name'] == 'compas':
-            self.data = self.data[
-                (self.data['days_b_screening_arrest'] <= 30) & 
-                (self.data['days_b_screening_arrest'] >= -30) & 
-                (self.data['is_recid'] != -1) & 
-                (self.data['c_charge_degree'] != "0") & 
-                (self.data['score_text'] != "N/A")
-            ]
+        self.__specific_change()
         for dr in self.base_config['drop_col']:
             self.data.drop(dr, axis=1, inplace=True)
         self.data.dropna(inplace=True)
-        print(self.data)
-        self.__specific_change()
 
     def __specific_change(self):
         if self.base_config['data_name'] == 'census':
             self.data.replace('<=50K', "LessThan50K", inplace=True)
             self.data.replace('>50K', "MoreThan50K", inplace=True)
+        if self.base_config['data_name'] == 'compas':
+            self.data = self.data[
+                (self.data['days_b_screening_arrest'] <= 30) &
+                (self.data['days_b_screening_arrest'] >= -30) &
+                (self.data['is_recid'] != -1) &
+                (self.data['c_charge_degree'] != "0") &
+                (self.data['score_text'] != "N/A")
+            ]
 
     def _encode_data(self, encode):
         le = preprocessing.LabelEncoder()
@@ -54,6 +53,8 @@ class tabularDataHandler:
             save_obj(self.classes, self.base_config['classes_file'])
 
     def get_decode_data(self, col_name, idx):
+        if col_name not in self.classes:
+            return str(idx)
         return self.classes[col_name][idx]
 
     def _determine_label(self):
