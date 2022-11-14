@@ -19,9 +19,18 @@ class tabularDataHandler:
         self.data = pd.read_csv(
             self.base_config['data_file'], na_filter=True, skipinitialspace=True)
         self.data.replace('?', None, inplace=True)
-        self.data.dropna(inplace=True)
+        if self.base_config['data_name'] == 'compas':
+            self.data = self.data[
+                (self.data['days_b_screening_arrest'] <= 30) & 
+                (self.data['days_b_screening_arrest'] >= -30) & 
+                (self.data['is_recid'] != -1) & 
+                (self.data['c_charge_degree'] != "0") & 
+                (self.data['score_text'] != "N/A")
+            ]
         for dr in self.base_config['drop_col']:
             self.data.drop(dr, axis=1, inplace=True)
+        self.data.dropna(inplace=True)
+        print(self.data)
         self.__specific_change()
 
     def __specific_change(self):
