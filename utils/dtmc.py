@@ -23,8 +23,8 @@ class DTMCHandler:
         for i in range(stats.shape[0]):
             self.dtmc_array[0][i+1] = sum(stats[i])/sum(sum(stats))
             for j in range(stats.shape[1]):
-                self.dtmc_array[1+i][1+stats.shape[0] +
-                                     j] = stats[i][j]/sum(stats[i])
+                self.dtmc_array[1+i][1+stats.shape[0] + j] \
+                    = stats[i][j]/sum(stats[i])
         for j in range(stats.shape[1]):
             self.dtmc_array[1+stats.shape[0]+j][1+stats.shape[0]+j] = 1.0
         self.mc = MarkovChain(self.dtmc_array, self.node_names)

@@ -77,6 +77,9 @@ class tabularDataHandler:
     def get_label_unique(self):
         return self.label.unique()
 
+    def get_attr_unique(self, attr_name):
+        return self.data[attr_name].unique()
+
     def split_train_val(self):
         return train_test_split(
             self.data, self.label, test_size=self.base_config['val_ratio'], random_state=42)

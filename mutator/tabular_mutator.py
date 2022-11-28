@@ -28,4 +28,5 @@ class TabularMutator(BaseMutator):
                 else:
                     change_value = sym if change_ratio > self.bound/2 else 0
                 self.mutated_data.at[index, change_attr] += change_value
+        
         return self.mutated_data

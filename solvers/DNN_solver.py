@@ -24,3 +24,15 @@ class DNNSolver(BaseSolver):
             data=mutated_data, batch_size=self.configs['batch_size'], split=False)
         results = self.modelHandler.simple_forward(mutated_loader)
         return results
+
+    def _get_fairness_pred(self, attribute_name, attribute_value):
+        outputs = []
+        for attr in self.dataHandler.get_attr_unique(attribute_name):
+            mutated_data = self.dataHandler.mutator.mutate(
+                attribute_name, attr, assign_fair_value=True)
+            mutated_loader = self.dataHandler.generate_dataloader_for_DNN(
+                data=mutated_data, batch_size=self.configs['batch_size'], split=False)
+            outputs.append(self.modelHandler.simple_forward(mutated_loader))
+        results = [1 if self._all_num_equal([ou[i] for ou in outputs]) else 0
+                   for i in range(len(outputs[0]))]
+        return results

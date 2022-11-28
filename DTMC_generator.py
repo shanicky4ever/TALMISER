@@ -15,6 +15,7 @@ if __name__ == '__main__':
     parser.add_argument('--plot', action='store_true')
     parser.add_argument('--epsilon', default=0.01, type=float)
     parser.add_argument('--delta', default=0.05, type=float)
+    parser.add_argument('--o', default='fair', choices=['fair', 'ori'])
     args = parser.parse_args()
 
     configs = load_obj(f"configs/{args.dataset}.yaml")
@@ -28,5 +29,9 @@ if __name__ == '__main__':
     solver = get_solver(args.model)(
         dataHandler=dataHandler, configs=configs[f'{args.model}_config'],
         pretrained=True)
-    dtmc_handler = solver.generate_DTMC(
-        args.attribute, is_plot=args.plot, eps=args.epsilon, delta=args.delta)
+    if args.o == 'fair':
+        dtmc_handler = solver.generate_DTMC_by_fair_attribute(
+            args.attribute, is_plot=args.plot, eps=args.epsilon, delta=args.delta)
+    else:
+        dtmc_handler = solver.generate_DTMC_by_actual_class(
+            args.attribute, is_plot=args.plot, eps=args.epsilon, delta=args.delta)
