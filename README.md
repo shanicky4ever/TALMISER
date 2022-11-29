@@ -29,6 +29,8 @@ or in short with default $\epsilon=0.01$, $\delta=0.05$
 
 If you don't want to output the DTMC image, just drop the option `--plot`
 
+If you‘d like to generate DTMC in origin method, please running with option `--o ori`
+
 
 ### Verification
 
