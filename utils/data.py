@@ -37,6 +37,9 @@ class tabularDataHandler:
                 (self.data['c_charge_degree'] != "0") &
                 (self.data['score_text'] != "N/A")
             ]
+            two_year_recid_map = {1: "yes", 0: "no"}
+            self.data['two_year_recid'] = [two_year_recid_map[x]
+                                           for x in self.data['two_year_recid']]
             in_custody = [datetime.datetime.strptime(s.split()[0], '%Y-%m-%d').date()
                           for s in self.data['c_jail_in']]
             out_custody = [datetime.datetime.strptime(s.split()[0], '%Y-%m-%d').date()
@@ -45,6 +48,23 @@ class tabularDataHandler:
                               for i, o in zip(in_custody, out_custody)]
             self.data['custody_during'] = custody_during
             self.data.drop(['c_jail_in', 'c_jail_out'], axis=1, inplace=True)
+        if self.base_config['data_name'] == 'dccc':
+            self.data = self.data[
+                (self.data['EDUCATION'] != 0) &
+                (self.data['MARRIAGE'] != 0)
+            ]
+            default_map = {1: "default", 0: "not default"}
+            self.data['default.payment.next.month'] = [
+                default_map[x] for x in self.data['default.payment.next.month']]
+            SEX_map = {1: "Male", 2: "Female"}
+            self.data['SEX'] = [SEX_map[x] for x in self.data['SEX']]
+            EDUCATION_map = {1: "graduate school", 2: "university",
+                             3: "high school", 4: "others", 5: "unknown", 6: "anonymous"}
+            self.data['EDUCATION'] = [EDUCATION_map[x]
+                                      for x in self.data['EDUCATION']]
+            marriage_map = {1: "married", 2: "single", 3: "others"}
+            self.data['MARRIAGE'] = [marriage_map[x]
+                                     for x in self.data['MARRIAGE']]
 
     def _encode_data(self, encode):
         le = preprocessing.LabelEncoder()

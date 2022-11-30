@@ -27,6 +27,12 @@ class DTMCHandler:
                     = stats[i][j]/sum(stats[i])
         for j in range(stats.shape[1]):
             self.dtmc_array[1+stats.shape[0]+j][1+stats.shape[0]+j] = 1.0
+        for i in range(stats.shape[0]):
+            max_out = np.argmax(self.dtmc_array[1+i])
+            for j in range(stats.shape[1]):
+                if self.dtmc_array[1+i][1+stats.shape[0]+j] == 0:
+                    self.dtmc_array[1+i][1+stats.shape[0]+j] += 1e-6
+                    self.dtmc_array[1+i][max_out] -= 1e-6
         self.mc = MarkovChain(self.dtmc_array, self.node_names)
 
     def save_dtmc(self, path):

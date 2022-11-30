@@ -1,0 +1,24 @@
+base_config:
+  data_name: dccc
+  data_file: "datasets/UCI_Credit_Card.csv"
+  classes_file: "trained_model/dccc.yaml"
+  label_col : "default.payment.next.month"
+  drop_col : []
+  val_ratio : 0.1
+  dtmc_folder: "dtmc_results/dccc"
+  mutation_bound: 0.2
+DNN_config:
+  model: DNN
+  epochs: 20
+  batch_size: 32
+  lr: 0.0001
+  weight_file: "trained_model/dccc_dnn.pt"
+  device : cpu
+svm_config:
+  model: svm
+  weight_file: "trained_model/dccc_svm.joblib"
+  max_iter: 10000
+rf_config:
+  model: randomForest
+  weight_file: "trained_model/dccc_rf.joblib"
+  max_depth: 5
