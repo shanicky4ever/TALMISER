@@ -1,0 +1,27 @@
+dtmc_array:
+- - 0.0
+  - 1.0
+  - 0.0
+  - 0.0
+- - 0.0
+  - 0.0
+  - 0.0007349993318187892
+  - 0.9992650006681812
+- - 0.0
+  - 0.0
+  - 1.0
+  - 0.0
+- - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+label_names:
+- diff
+- same
+node_names:
+- dccc
+- MARRIAGE
+- diff
+- same
+para_names:
+- MARRIAGE

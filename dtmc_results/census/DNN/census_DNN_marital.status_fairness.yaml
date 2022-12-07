@@ -1,0 +1,27 @@
+dtmc_array:
+- - 0.0
+  - 1.0
+  - 0.0
+  - 0.0
+- - 0.0
+  - 0.0
+  - 0.1024799416484318
+  - 0.8975200583515682
+- - 0.0
+  - 0.0
+  - 1.0
+  - 0.0
+- - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+label_names:
+- diff
+- same
+node_names:
+- census
+- maritalstatus
+- diff
+- same
+para_names:
+- maritalstatus

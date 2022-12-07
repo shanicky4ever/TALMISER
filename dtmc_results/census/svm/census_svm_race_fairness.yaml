@@ -1,0 +1,27 @@
+dtmc_array:
+- - 0.0
+  - 1.0
+  - 0.0
+  - 0.0
+- - 0.0
+  - 0.0
+  - 0.04127710364034215
+  - 0.9587228963596578
+- - 0.0
+  - 0.0
+  - 1.0
+  - 0.0
+- - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+label_names:
+- diff
+- same
+node_names:
+- census
+- race
+- diff
+- same
+para_names:
+- race

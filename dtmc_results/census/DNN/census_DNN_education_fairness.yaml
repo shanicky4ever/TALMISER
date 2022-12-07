@@ -1,0 +1,27 @@
+dtmc_array:
+- - 0.0
+  - 1.0
+  - 0.0
+  - 0.0
+- - 0.0
+  - 0.0
+  - 0.10334195345136264
+  - 0.8966580465486373
+- - 0.0
+  - 0.0
+  - 1.0
+  - 0.0
+- - 0.0
+  - 0.0
+  - 0.0
+  - 1.0
+label_names:
+- diff
+- same
+node_names:
+- census
+- education
+- diff
+- same
+para_names:
+- education

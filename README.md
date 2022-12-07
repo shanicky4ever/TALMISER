@@ -45,3 +45,7 @@ or in short
 All the config are stored in `configs/<dataset_name>.yaml`, you can add a new yaml file to add a new dataset, or add new model details in existing yaml file to build a new model.
 
 After that, just repeat the running steps.
+
+# Results
+
+All the results show in report or presentation, can be found in dtmc_results folder.

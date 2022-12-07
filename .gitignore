@@ -163,5 +163,4 @@ cython_debug/
 .vscode/
 
 trained_model/
-dtmc_results/
 *.png
